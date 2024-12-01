@@ -9,9 +9,12 @@ def total_salary(path)-> tuple:
         with open(file_name, "r", encoding="utf-8") as file:
             for line in file:
                 salary.append(int(line.split(',')[1]))
-            tot = int(sum(salary))
-            av = int(tot / len(salary))
-        return (tot, av)
+            if len(salary) > 0:
+                tot = int(sum(salary))
+                av = int(tot / len(salary))
+                return (tot, av)
+            else:
+                return (0, 0) #Якщо в файлі немає жодного запису, отже загальна сума також буде 0.
     except Exception as error:
         return(error,error)
 
@@ -38,7 +41,7 @@ def get_cats_info(path) -> list:
 cats_info = get_cats_info("cats_file.txt")
 print(cats_info)
 
-
+"""
 #Task 3
 from colorama import Fore
 import sys
@@ -55,7 +58,7 @@ def parse_folder(path):
             print(Fore.GREEN + f"{element.name} is a file")
 
 parse_folder(parent_folder_path)
-
+"""
 
 #Task 4
 def parse_input(user_input):
@@ -73,6 +76,13 @@ def change_contact(args, contacts):
     if name in contacts:
         contacts[name] = phone
         return "Contact updated."
+    else:
+        return "Name not found"
+
+def show_phone(args, contacts):
+    name = args[0]
+    if name in contacts:
+        return contacts[name]
     else:
         return "Name not found"
 
@@ -94,7 +104,9 @@ def main():
         elif command == "add":
             print(add_contact(args, contacts))
         elif command == "change":
-            print(change_contact(args,contacts))
+            print(change_contact(args, contacts))
+        elif command == "phone":
+            print(show_phone(args, contacts))
         elif command == "all":
             print(contacts)
         else:
