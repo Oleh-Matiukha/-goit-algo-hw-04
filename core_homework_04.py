@@ -44,7 +44,7 @@ from colorama import Fore
 import sys
 from pathlib import Path
 
-path = sys.argv[0]
+path = sys.argv[1]
 parent_folder_path = Path(path)
 
 def parse_folder(path):
@@ -58,3 +58,48 @@ parse_folder(parent_folder_path)
 
 
 #Task 4
+def parse_input(user_input):
+    cmd, *args = user_input.split()
+    cmd = cmd.strip().lower()
+    return cmd, *args
+
+def add_contact(args, contacts):
+    name, phone = args
+    contacts[name] = phone
+    return "Contact added."
+
+def change_contact(args, contacts):
+    name, phone = args
+    if name in contacts:
+        contacts[name] = phone
+        return "Contact updated."
+    else:
+        return "Name not found"
+
+def show_all(contacts):
+    return contacts
+
+def main():
+    contacts = {}
+    print("Welcome to the assistant bot!")
+    while True:
+        user_input = input("Enter a command: ")
+        command, *args = parse_input(user_input)
+
+        if command in ["close", "exit"]:
+            print("Good bye!")
+            break
+        elif command == "hello":
+            print("How can I help you?")
+        elif command == "add":
+            print(add_contact(args, contacts))
+        elif command == "change":
+            print(change_contact(args,contacts))
+        elif command == "all":
+            print(contacts)
+        else:
+            print("Invalid command.")
+
+if __name__ == "__main__":
+    main()
+
